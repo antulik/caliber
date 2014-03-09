@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Anton Katunin"]
   gem.email         = ["katunin.anton+rubygems@gmail.com"]
   gem.description   = %q{Caliber is a Rails engine that shows css classes}
-  gem.summary       = %q{Caliber is a Rails engine that shows css classes}
+  gem.summary       = %q{Caliber is a Rails engine that shows css classes.}
   gem.homepage      = "https://github.com/antulik/caliber"
   gem.license       = "MIT"
 

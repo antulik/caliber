@@ -2,7 +2,7 @@
 
 ## What
 
-Show CSS classes in your Rails application while working in development. Visit `http://localhost:3000/rails/css` and you'll see an output to browse you application CSS, SASS, SCSS, LESS and other stylesheet files.
+Show CSS classes in your Rails application while working in development. Visit `http://localhost:3000/rails/css` and you can browse you application CSS files.
 
 ![Caliber Gem](http://cl.ly/image/3Y0z1B411C1G/Image%202014-03-09%20at%209.00.46%20pm.png)
 
