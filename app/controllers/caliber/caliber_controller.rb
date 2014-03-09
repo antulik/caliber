@@ -1,4 +1,5 @@
 require 'css_parser'
+
 module Caliber
   class CaliberController < Caliber::ApplicationController
     include ::CssParser
