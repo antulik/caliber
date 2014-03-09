@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  mount_caliber
+  get "rails/css" => "caliber/caliber#index"
+  mount Caliber::Engine => "/caliber", :as => "caliber_engine"
 end

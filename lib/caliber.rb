@@ -1,5 +1,4 @@
 require 'caliber/engine'
-require 'rails/routes'
 
 module Caliber
 
