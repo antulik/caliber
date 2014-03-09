@@ -1,11 +1,189 @@
-<h2>
-  Routes
-</h2>
+<style type="text/css">
+    .result {
+        width: 500px;
+        padding: 10px;
+    }
 
-<p>
-  Routes match in priority from top to bottom
-</p>
+    .selector,
+    .selector > input {
+        font-size: 20px;
+        font-weight: bold;
+    }
 
-<%= render layout: "route_wrapper" do %>
-  <%= render partial: "route", collection: @routes %>
-<% end %>
+    .pathname,
+    .pathname > input {
+        color: grey;
+        font-size: 0.8em;
+    }
+
+    .mediatypes {
+        color: grey;
+        float:right;
+    }
+
+    .mediatypes input {
+        text-align: right;
+    }
+
+    .results-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .results-list > li:nth-child(odd)  {
+        background-color: #f9f9f9;
+    }
+
+    .results-list > li:hover {
+        background-color: #f5f5f5;
+    }
+
+    .filter {
+        background-color: lightgrey;
+    }
+
+    .filter input {
+        border: none;
+        background-color: lightgrey;
+        color: black;
+        border-bottom-width: 1px;
+        border-bottom-style: dashed;
+        border-bottom-color: grey;
+    }
+
+    .pathname > input {
+        width: 350px;
+    }
+    .selector > input {
+        width: 300px;
+    }
+</style>
+
+<div class="result filter">
+  <div class="mediatypes">
+    <input type="text" id='mediatype' value='' placeholder='media type'>
+  </div>
+  <div class="selector">
+    <input type="text" id='selector' value='' placeholder='css selector'>
+  </div>
+  <div class="pathname">
+    <input type="text" id='pathname' placeholder='css file path'>
+  </div>
+</div>
+
+<ul class="results-list">
+
+</ul>
+
+<div class="template-result" style="display:none;">
+  <li class="result">
+    <div class="mediatypes"></div>
+    <div class="selector"></div>
+    <div class="pathname"></div>
+  </li>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        var data = <%= @css_selectors.to_json.html_safe %>;
+
+        window.gg = data;
+
+        function debounce(fn, delay) {
+            var timer = null;
+            return function () {
+                var context = this, args = arguments;
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    fn.apply(context, args);
+                }, delay);
+            };
+        }
+
+        var filterData = function() {
+            var filter_selector = $("#selector").val();
+            var filter_pathname = $("#pathname").val();
+            var filter_mediatype = $("#mediatype").val();
+            var max_results = 200;
+
+            var result = [];
+
+            for (var i = 0; i < data.length; i++) {
+                if (result.length >= max_results) {
+                    break;
+                }
+                var item = data[i];
+                if (item.selector.indexOf(filter_selector) != -1 &&
+                        item.pathname.indexOf(filter_pathname) != -1) {
+
+                    var media_match = false;
+                    for (var b = 0; b < item.media_types.length; b++) {
+                        if (item.media_types[b].indexOf(filter_mediatype) != -1) {
+                            media_match = true;
+                        }
+                    }
+
+                    if (media_match || (item.media_types.length == 0 && filter_mediatype.length == 0)) {
+                        item.index_id = i;
+                        result.push(item);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        var render = function(list) {
+            var results_list = $('.results-list');
+            var template = $('.template-result');
+            template = $(template.html());
+
+            results_list.html('');
+            for (var i = 0; i < list.length; i++) {
+                var item = list[i];
+
+                var html = template.clone();
+                html.data('index-id', item.index_id)
+                html.find('.selector').text(item.selector);
+                html.find('.pathname').text(item.pathname);
+                html.find('.mediatypes').text(item.media_types.join(','));
+
+                results_list.append(html);
+            }
+
+        }
+
+        $('.filter').on('keyup', 'input', debounce(function(){
+            var filteredData = filterData();
+            render(filteredData);
+        }, 500));
+
+
+        var last_mouse_enter = null;
+        $('.results-list').on('mouseenter', 'li', function(e) {
+            $(last_mouse_enter).popover('destroy');
+
+            last_mouse_enter = this;
+
+            var elem = $(last_mouse_enter);
+            var item = data[elem.data('index-id')];
+
+            var html = '<pre><code class="css">';
+            html += item.selector + ' {\n ';
+            html += item.declarations;
+            html += '};';
+            html += '</code></pre>';
+
+            elem.popover({
+                html: true,
+                content: html,
+                trigger: 'manual',
+                animation: false,
+            }).popover('show');
+
+            $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+
+        });
+    });
+
+</script>

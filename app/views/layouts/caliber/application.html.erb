@@ -1,43 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Routes</title>
-  <style>
-    body { background-color: #fff; color: #333; }
+  <meta charset="UTF-8" />
+  <title>Caliber of CSS rules</title>
 
-    body, p, ol, ul, td {
-      font-family: helvetica, verdana, arial, sans-serif;
-      font-size:   13px;
-      line-height: 18px;
-    }
-
-    pre {
-      background-color: #eee;
-      padding: 10px;
-      font-size: 11px;
-      white-space: pre-wrap;
-    }
-
-    a { color: #000; }
-    a:visited { color: #666; }
-    a:hover { color: #fff; background-color:#000; }
-
-    table.route_table {
-      border-spacing:0;
-      border-collapse:collapse;
-    }
-    table.route_table th { border-bottom: 1px solid black}
-    table.route_table tr:nth-child(even) {background: #EEE}
-    table.route_table tr:nth-child(odd) {background: #FFF}
-    table.route_table tr:hover {
-      background-color: #333;
-      color:            #FFF;
-    }
-  </style>
-  <%= javascript_include_tag "caliber/application" %>
   <%= csrf_meta_tags %>
-  </head>
+
+  <%= javascript_include_tag 'http://code.jquery.com/jquery-1.11.0.min.js' %>
+  <%= javascript_include_tag "caliber/application" %>
+  <%= stylesheet_link_tag "caliber/railscasts.css" %>
+
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+</head>
 <body>
 
 <%= yield %>

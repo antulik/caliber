@@ -20,10 +20,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency "rails", ">= 3.2"
+  gem.add_dependency "css_parser", ">= 1.3.5"
 
-  gem.add_development_dependency "capybara", ">= 0.4.0"
-  gem.add_development_dependency "launchy", "~> 2.1.0"
-  gem.add_development_dependency "poltergeist"
   gem.add_development_dependency "rake"
-  gem.add_development_dependency "sqlite3"
 end
