@@ -2,9 +2,9 @@
 
 ## What
 
-Show CSS classes in your Rails application while working in development. Visit `http://localhost:3000/rails/css` and you can browse you application CSS files.
+Show CSS classes in your Rails application while working in development. Visit `http://localhost:3000/rails/info/css` and you can browse you application CSS files.
 
-![Caliber Gem](http://cl.ly/image/3Y0z1B411C1G/Image%202014-03-09%20at%209.00.46%20pm.png)
+![Caliber Gem](http://cl.ly/image/201k050E1c0X/Image%202014-03-11%20at%207.45.52%20pm.png)
 
 
 ## Why?
@@ -25,7 +25,7 @@ Then run `bundle install` and you're ready to start
 
 ## Use
 
-Visit `/rails/css` in your app and you'll see your stylesheets. It's that simple.
+Visit `/rails/info/css` in your app and you'll see your stylesheets. It's that simple.
 
 
 ## About
