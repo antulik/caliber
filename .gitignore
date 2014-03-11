@@ -8,3 +8,4 @@ test/dummy/tmp/
 .rvmrc
 /.idea
 /Gemfile.lock
+/*.gem
