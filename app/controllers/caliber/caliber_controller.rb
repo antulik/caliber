@@ -15,6 +15,8 @@ module Caliber
 
         next unless Rails.application.assets.content_type_of(pathname) == 'text/css'
 
+        #next if @css_selectors.any?
+
         parser = CssParser::Parser.new
 
         begin
