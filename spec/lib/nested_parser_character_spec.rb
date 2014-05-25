@@ -2,10 +2,7 @@ require 'spec_helper'
 require 'caliber/nested_parser_character'
 
 describe Caliber::NestedParserCharacter do
-
   describe 'group_by_char' do
-
-
     it 'generates hash sliced by character' do
       list = [
         {selector: 'a'},

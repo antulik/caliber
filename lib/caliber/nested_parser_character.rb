@@ -1,10 +1,6 @@
 module Caliber
   class NestedParserCharacter
 
-
-    def initialize
-    end
-
     def parse list
       hash = group_by_char list
       merge_nested hash
@@ -31,21 +27,6 @@ module Caliber
       grouped
     end
 
-    # {
-    #   a: {
-    #     b: {
-    #       c: []
-    #     },
-    #     1: {
-    #       2: []
-    #     }
-    #   }
-    # }
-    #
-    # returns
-    # {
-    #   abc: []
-    # }
     def merge_nested hash
       new_hash = {}
 
@@ -71,42 +52,6 @@ module Caliber
       else
         new_hash
       end
-    end
-
-    def two
-
-      if hash.size == 1 || (hash.size == 2 && hash.include?('items'))
-        orig = hash
-        k = orig.keys.first
-        v = orig.values.first
-
-        if v.is_a? Array
-          return hash
-        end
-
-        hash = {}
-        v.each_key do |key|
-          if key == 'items'
-            hash[key] = v[key]
-          else
-            hash["#{k}#{key}"] = v[key]
-          end
-        end
-        return merge_nested hash
-      end
-
-
-      hash.each_key do |key|
-        if key == 'items'
-          next
-        elsif hash[key].is_a? Array
-          hash[key] = hash[key]
-        else
-          hash[key] = merge_nested hash[key]
-        end
-      end
-
-      hash
     end
 
   end
