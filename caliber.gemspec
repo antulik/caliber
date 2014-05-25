@@ -1,8 +1,7 @@
+$:.push File.expand_path("../lib", __FILE__)
 
-# -*- encoding: utf-8 -*-
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'caliber/version'
+# Maintain your gem's version:
+require "caliber/version"
 
 Gem::Specification.new do |gem|
   gem.name          = "caliber"
@@ -23,4 +22,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency "css_parser", ">= 1.3.5"
 
   gem.add_development_dependency "rake"
+  gem.add_development_dependency "sqlite3"
 end
