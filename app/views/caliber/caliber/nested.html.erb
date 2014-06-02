@@ -1,0 +1,41 @@
+
+
+<div id="columns"></div>
+
+<script>
+
+
+    $(document).ready(function() {
+
+        var data = <%= @data.to_json.html_safe %>;
+
+
+
+        $("#columns").hColumns({
+            nodeSource: function(node_id, callback) {
+                // callback is a function that receive two parameter
+                // callback(error, array of nodes);
+
+                // if inital load
+                if(node_id === null) {
+                    return callback(null, [
+                        { id: 1, label: "folder", type: "folder" },
+                        { id: 2, label: "empty", type: "folder" },
+                        { id: 3, label: "Google", type: "link", url: "http://www.google.com" }
+                    ]);
+                }
+
+                if(node_id === 1) {
+                    return callback(null, [
+                        { id: 11, label: "Google in a folder", type: "link", url: "http://www.google.com" }
+                    ]);
+                }
+
+                // even empty nodes, you need to return empty array []
+                if(node_id === 2) {
+                    return callback(null, []);
+                }
+            }
+        });                                                                                                                         });
+</script>
+

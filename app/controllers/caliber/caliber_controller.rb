@@ -21,7 +21,11 @@ module Caliber
 
       r = npc.group_by_char selectors
       r = npc.merge_nested r
-      render :json => r
+      r = flat_hash r
+      # raise r.inspect
+
+      @data = r
+      # render :json => r
 
     end
 
@@ -29,6 +33,18 @@ module Caliber
 
     def grouped
 
+    end
+
+    def flat_hash(h, k = [])
+      new_hash = {}
+      h.each_pair do |key, val|
+        if val.is_a?(Hash)
+          new_hash.merge!(flat_hash(val, k + [key]))
+        else
+          new_hash[k + [key]] = val
+        end
+      end
+      new_hash
     end
 
     def get_selectors

@@ -12,6 +12,7 @@ else
 end
 
 gem "rails", rails
-
+gem "jquery-rails"
+# gem 'caliber', path: "."
 
 gemspec
