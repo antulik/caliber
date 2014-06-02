@@ -1,4 +1,12 @@
+<style type="text/css">
+  #columns {
+      height: 600px;
+  }
 
+  .column ul {
+      height: 600px;
+  }
+</style>
 
 <div id="columns"></div>
 
@@ -7,34 +15,129 @@
 
     $(document).ready(function() {
 
-        var data = <%= @data.to_json.html_safe %>;
+        window.data = <%= @data.to_json.html_safe %>;
+
+        function item_data(keys) {
+            var a;
+            var tmp = data;
+            for (a = 0; a < keys.length; a++) {
+                var key = keys[a];
+                tmp = tmp[key];
+                console.log('tmp');
+                console.log(tmp)
+            }
+            return tmp;
+        }
+
+        function object_size(obj) {
+            var size = 0;
+            for(key in data.phones) {
+                size++;
+            }
+            return size;
+        }
+
+        function name(keys) {
+            var tmp = item_data(keys);
 
 
+            var result = [];
+            if (Array.isArray(tmp)) {
+
+                result.push({
+                    id: keys,
+                    label: '&',
+                    type: 'code',
+                    items: tmp
+                });
+
+            } else {
+                for (var key in tmp) {
+                    value = tmp[key];
+                    new_key = keys.concat(key);
+
+                    if (key == '&') {
+                        result.push({
+                            id: new_key,
+                            label: key,
+                            type: "code",
+                            items: value
+                        })
+
+                    } else {
+                        var next = tmp[key];
+
+                        if (Array.isArray(next)) {
+                            result.push({
+                                id: new_key,
+                                label: key,
+                                type: "code",
+                                items: next
+                            })
+                        } else {
+                            result.push({
+                                id: new_key,
+                                label: key,
+                                type: 'folder'
+                            });
+                        }
+
+
+                    }
+                }
+
+            }
+
+            result = result.sort(function(a,b){
+                return a.label.localeCompare(b.label);
+            });
+            return result
+        }
 
         $("#columns").hColumns({
+            searchable: true,
+            customNodeTypeHandler: {
+                log: function(hColumn, node, data) {
+                    console.log('blah');
+                },
+                code: function(hColumn, node, data) {
+                    console.log('data');
+                    console.log(data);
+                    items = data.items;
+                    var html = '';
+                    for (a = 0; a < items.length; a += 1) {
+                        var item = items[a];
+
+                        html += '<pre><code class="css">';
+                        html += item.selector + ' {\n ';
+                        html += item.declarations;
+                        html += '};';
+                        html += '</code></pre>';
+                    }
+
+                    var elem = $(html);
+                    console.log(elem);
+
+                    var r = hColumn.columnView._addColumn(elem, hColumn.columnView);
+
+                    $('pre code').each(function (i, e) {
+                        hljs.highlightBlock(e)
+                    });
+
+                    return r;
+                }
+            },
             nodeSource: function(node_id, callback) {
-                // callback is a function that receive two parameter
-                // callback(error, array of nodes);
+                console.log('node_id');
+                console.log(node_id);
+
+                if (node_id === null){
+                    node_id = [];
+                }
 
                 // if inital load
-                if(node_id === null) {
-                    return callback(null, [
-                        { id: 1, label: "folder", type: "folder" },
-                        { id: 2, label: "empty", type: "folder" },
-                        { id: 3, label: "Google", type: "link", url: "http://www.google.com" }
-                    ]);
-                }
-
-                if(node_id === 1) {
-                    return callback(null, [
-                        { id: 11, label: "Google in a folder", type: "link", url: "http://www.google.com" }
-                    ]);
-                }
-
-                // even empty nodes, you need to return empty array []
-                if(node_id === 2) {
-                    return callback(null, []);
-                }
+                var r = name(node_id);
+                return callback(null,r);
             }
         });                                                                                                                         });
 </script>

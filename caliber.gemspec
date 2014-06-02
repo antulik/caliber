@@ -25,4 +25,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "sqlite3"
   gem.add_development_dependency "better_errors"
   gem.add_development_dependency "binding_of_caller"
+  gem.add_development_dependency "pry"
+  gem.add_development_dependency "awesome_print"
 end

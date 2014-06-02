@@ -1,7 +1,5 @@
 require 'css_parser'
 
-require 'caliber/nested_parser_character'
-
 module Caliber
   class CaliberController < Caliber::ApplicationController
     include ::CssParser
@@ -12,28 +10,19 @@ module Caliber
 
     def index
       @css_selectors = get_selectors
-
     end
 
     def nested
-      npc = ::Caliber::NestedParserCharacter.new
       selectors = get_selectors
 
-      r = npc.group_by_char selectors
-      r = npc.merge_nested r
-      r = flat_hash r
-      # raise r.inspect
+      np = ::Caliber::NestedParser3.new
+
+      r = np.parse selectors
 
       @data = r
-      # render :json => r
-
     end
 
     private
-
-    def grouped
-
-    end
 
     def flat_hash(h, k = [])
       new_hash = {}
